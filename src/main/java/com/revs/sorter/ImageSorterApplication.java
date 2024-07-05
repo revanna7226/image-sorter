@@ -10,4 +10,6 @@ public class ImageSorterApplication {
 		SpringApplication.run(ImageSorterApplication.class, args);
 	}
 
+
+
 }
