@@ -1,18 +1,14 @@
 package com.revs.sorter.model;
 
+import lombok.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class DirectoryInfo {
 
-    private String name;
-
-    public DirectoryInfo() {
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String driveName;
+    private String dirName;
 }

@@ -344,12 +344,12 @@
             <div class="button_panel" style="margin:0.1rem 0;" >
               <select style="width:48%" id="filelist_preset_filters_list" onchange="img_fn_list_onpresetfilter_select()" title="Filter file list using predefined filters">
                 <option value="all">All files</option>
-                <option value="files_without_region">Show files without regions</option>
-                <option value="files_missing_region_annotations">Show files missing region annotations</option>
-                <option value="files_missing_file_annotations">Show files missing file annotations</option>
-                <option value="files_error_loading">Files that could not be loaded</option>
-                <option value="regex">Regular Expression</option>
-                <option value="files_region_attribute">Filter by Region Attribute</option>
+<!--                <option value="files_without_region">Show files without regions</option>-->
+<!--                <option value="files_missing_region_annotations">Show files missing region annotations</option>-->
+<!--                <option value="files_missing_file_annotations">Show files missing file annotations</option>-->
+<!--                <option value="files_error_loading">Files that could not be loaded</option>-->
+<!--                <option value="regex">Regular Expression</option>-->
+<!--                <option value="files_region_attribute">Filter by Region Attribute</option>-->
               </select>
               <input style="width:50%" type="text" placeholder="regular expression" oninput="img_fn_list_onregex()" id="img_fn_list_regex" title="Filter using regular expression">
             </div>
@@ -357,6 +357,14 @@
           <div id="img_fn_list"></div>
           <p>
             <div class="button_panel">
+              <div class="row">
+                <span class="col"> <label for="drive-name">Project Drive: </label></span>
+                <span class="col">
+                  <select name="drive" id="drive-name" style="margin-bottom: 5px;">
+                    <option value="SELECT">Select a Drive</option>
+                  </select>
+                </span>
+              </div>
               <span class="button button_panel" style="text-align:center;" onclick="sel_local_images()" title="Add new file from local disk">Add Files</span>
               <!--
               Revanna, commented out

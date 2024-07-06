@@ -1,6 +1,7 @@
 package com.revs.sorter.controller;
 
 import com.revs.sorter.model.DirectoryInfo;
+import com.revs.sorter.model.DriveName;
 import com.revs.sorter.model.ImageMovementInfo;
 import com.revs.sorter.service.ImageDirService;
 import jakarta.annotation.PostConstruct;
@@ -18,21 +19,25 @@ public class ImageDirController {
     @Autowired
     ImageDirService imageDirService;
 
-    @PostConstruct
-    public void initialTask() {
-        this.imageDirService.createDefaultDirectories();
+//    @PostConstruct
+//    public void initialTask() {
+//        this.imageDirService.createDefaultDirectories();
+//    }
 
+    @GetMapping("/drives")
+    public List<DriveName> getAllDrives() {
+        return this.imageDirService.getAvailableDriveNames();
     }
 
-    @GetMapping("/dirs")
-    public Set<String> getAllDirs() {
-        return this.imageDirService.getAllDirectories();
+    @GetMapping("/dirs/{driveName}")
+    public Set<String> getAllDirs(@PathVariable String driveName) {
+        return this.imageDirService.getAllDirectories(driveName);
     }
 
     @PostMapping("/dirs")
     public Set<String> createDir(@RequestBody DirectoryInfo directoryInfo) {
-        this.imageDirService.createDirectory(directoryInfo.getName());
-        return this.imageDirService.getAllDirectories();
+        this.imageDirService.createDirectory(directoryInfo);
+        return this.imageDirService.getAllDirectories(directoryInfo.getDriveName());
     }
 
     @PostMapping("/move")
@@ -70,6 +75,12 @@ public class ImageDirController {
 //        modal.addAttribute("allFiles", fileServiceImplementation.getAllFiles());
 
         return "FileList";
+    }
+
+    @PostMapping("/createDefaultDirs")
+    public String createDefaultDirs(@RequestBody DriveName driveName) {
+        this.imageDirService.createDefaultDirectories(driveName);
+        return "Created";
     }
 
 }

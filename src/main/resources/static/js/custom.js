@@ -10,6 +10,8 @@
  */
 var Projects = function () {
 
+  this.SERVER_URL = window.location.protocol + '//' + window.location.host;
+
   this.createButtons = function(json) {
     var foo = document.getElementById("directory-button-group");
     foo.innerHTML = "";
@@ -28,8 +30,6 @@ var Projects = function () {
                 var directoryName = folderName;
                 this.moveImage(directoryName, imageName);
             });
-
-
             //Append the element in page (in span).
             foo.appendChild(element);
     }
@@ -38,13 +38,15 @@ var Projects = function () {
 
   this.registerEventForCreateDirectoryButtonClick = function() {
     document.getElementById("create-dir-button").addEventListener("click", (e) => {
-        let name = document.getElementById("directory_name").value;
+        let dirName = document.getElementById("directory_name").value;
+        let driveName = document.getElementById("drive-name").value;
 
-        if(name != undefined && name != "") {
-            fetch("http://localhost:7874/dirs", {
+        if(dirName != undefined && dirName != "" && driveName !== 'SELECT') {
+            fetch(this.SERVER_URL + "/dirs", {
               method: "POST",
               body: JSON.stringify({
-                name: name
+                driveName: driveName,
+                dirName: dirName
               }),
               headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -60,12 +62,53 @@ var Projects = function () {
     });
   }
 
+  this.updateDriveNames = function(driveNames) {
+    var select = document.getElementById('drive-name');
+
+    for(index in driveNames) {
+        var opt = document.createElement('option');
+        opt.value = driveNames[index].driveName;
+        opt.innerHTML = driveNames[index].driveName;
+        select.appendChild(opt);
+    }
+  }
+
+  this.registerEventForDriveSelection = () => {
+    document.getElementById('drive-name').addEventListener("change", (e) => {
+        const driveName = event.target.value;
+
+        if(driveName !== 'SELECT') {
+            // create default directories
+            fetch(this.SERVER_URL + "/createDefaultDirs", {
+              method: "POST",
+              body: JSON.stringify({
+                driveName: driveName
+              }),
+              headers: {
+                "Content-type": "application/json; charset=UTF-8"
+              }
+            });
+
+            // get all directory names and create buttons for each
+            fetch(this.SERVER_URL + "/dirs/"+driveName)
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json);
+                this.createButtons(json);
+            });
+        }
+    });
+  }
+
   this.moveImage = function(directoryName, imageName) {
-    fetch("http://localhost:7874/move", {
+    let driveName = document.getElementById("drive-name").value;
+
+    fetch(this.SERVER_URL + "/move", {
       method: "POST",
       body: JSON.stringify({
           imageName: imageName,
-          dirName: directoryName
+          dirName: directoryName,
+          driveName: driveName
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8"
@@ -111,15 +154,29 @@ var Projects = function () {
       user_input_default_cancel_handler();
     };
 
+  this.onLoad = () => {
+      // fetch all directories and update dropdown values
+      fetch("http://localhost:7874/drives")
+      .then((response) => response.json())
+      .then((json) => {
+          console.log(json);
+          this.updateDriveNames(json);
+      });
+  }
+
   this.process = function () {
     this.registerEventForCreateDirectoryButtonClick();
+    this.onLoad();
+    this.registerEventForDriveSelection();
 
-    fetch("http://localhost:7874/dirs")
-                .then((response) => response.json())
-                .then((json) => {
-                    console.log(json);
-                    this.createButtons(json);
-                });
+//    fetch("http://localhost:7874/dirs")
+//                .then((response) => response.json())
+//                .then((json) => {
+//                    console.log(json);
+//                    this.createButtons(json);
+//                });
+
+
   };
 };
 

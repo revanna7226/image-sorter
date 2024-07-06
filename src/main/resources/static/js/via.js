@@ -4924,7 +4924,8 @@ function img_fn_list_onregex() {
 
 function img_fn_list_onpresetfilter_select() {
   var p = document.getElementById('filelist_preset_filters_list');
-  var filter = p.options[p.selectedIndex].value;
+  //  var filter = p.options[p.selectedIndex].value;
+  var filter = 'all';
   switch(filter) {
   case 'all':
     document.getElementById('img_fn_list_regex').value = '';
