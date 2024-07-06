@@ -5190,10 +5190,10 @@ function attribute_update_panel_set_active_button() {
   var attribute_type;
   for ( attribute_type in _via_attributes ) {
     var bid = 'button_show_' + attribute_type + '_attributes';
-    document.getElementById(bid).classList.remove('active');
+    // document.getElementById(bid).classList.remove('active');
   }
   var bid = 'button_show_' + _via_attribute_being_updated + '_attributes';
-  document.getElementById(bid).classList.add('active');
+  // document.getElementById(bid).classList.add('active');
 }
 
 function show_region_attributes_update_panel() {

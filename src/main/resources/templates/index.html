@@ -364,6 +364,12 @@
               <span class="button" onclick="project_file_remove_with_confirm()" title="Remove selected file (i.e. file currently being shown) from project">Remove</span>
               -->
             </div>
+            <div class="button_panel">
+              <input style="width:50%" type="text" placeholder="Directory Name" id="directory_name">
+              <span class="button" id="create-dir-button" title="Create new Directory">Create Directory</span>
+            </div>
+          <div class="button_panel" id="directory-button-group">
+          </div>
           </p>
         </div>
 
@@ -791,5 +797,6 @@ POSSIBILITY OF SUCH DAMAGE.
     <!-- DEMO SCRIPT AUTOMATICALLY INSERTED BY VIA PACKER SCRIPT -->
     <!-- <script src="via.js"></script> -->
     <script type="text/javascript" th:src="@{/js/via.js}"></script>
+    <script type="text/javascript" th:src="@{/js/custom.js}"></script>
   </body>
 </html>
