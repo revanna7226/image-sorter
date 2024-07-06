@@ -67,7 +67,7 @@ var Projects = function () {
 
     for(index in driveNames) {
         var opt = document.createElement('option');
-        opt.value = driveNames[index].driveName;
+        opt.value = driveNames[index].driveLetter;
         opt.innerHTML = driveNames[index].driveName;
         select.appendChild(opt);
     }
@@ -156,7 +156,7 @@ var Projects = function () {
 
   this.onLoad = () => {
       // fetch all directories and update dropdown values
-      fetch("http://localhost:7874/drives")
+      fetch(this.SERVER_URL + "/drives")
       .then((response) => response.json())
       .then((json) => {
           console.log(json);
@@ -168,15 +168,6 @@ var Projects = function () {
     this.registerEventForCreateDirectoryButtonClick();
     this.onLoad();
     this.registerEventForDriveSelection();
-
-//    fetch("http://localhost:7874/dirs")
-//                .then((response) => response.json())
-//                .then((json) => {
-//                    console.log(json);
-//                    this.createButtons(json);
-//                });
-
-
   };
 };
 

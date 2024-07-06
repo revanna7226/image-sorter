@@ -1,18 +1,13 @@
 package com.revs.sorter.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class DriveName {
+    private String driveLetter;
     private String driveName;
-
-    public DriveName(String driveName) {
-        this.driveName = driveName;
-    }
-
-    public DriveName(){
-
-    }
 }

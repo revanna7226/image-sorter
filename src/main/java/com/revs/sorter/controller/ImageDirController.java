@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -81,6 +83,19 @@ public class ImageDirController {
     public String createDefaultDirs(@RequestBody DriveName driveName) {
         this.imageDirService.createDefaultDirectories(driveName);
         return "Created";
+    }
+
+    // FEATURE
+    @GetMapping("/testapi")
+    public List<String> getTestData() {
+        List<String> driveNames = new ArrayList<>();
+        File[] roots = File.listRoots();
+        FileSystemView fsv = FileSystemView.getFileSystemView();
+        for (File drive : roots) {
+            String driveName = fsv.getSystemDisplayName(drive);
+            driveNames.add(driveName);
+        }
+        return driveNames;
     }
 
 }

@@ -5,6 +5,7 @@ import com.revs.sorter.model.DriveName;
 import com.revs.sorter.model.ImageMovementInfo;
 import org.springframework.stereotype.Service;
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,8 +31,13 @@ public class ImageDirService {
     public List<DriveName> getAvailableDriveNames() {
         List<DriveName> driveNames = new ArrayList<>();
         File[] roots = File.listRoots();
+        FileSystemView fsv = FileSystemView.getFileSystemView();
         for(File drive: roots) {
-            driveNames.add(new DriveName(drive.getAbsolutePath().substring(0,1)));
+            DriveName driveName = DriveName.builder()
+                    .driveLetter(drive.getAbsolutePath().substring(0,1))
+                    .driveName(fsv.getSystemDisplayName(drive))
+                    .build();
+            driveNames.add(driveName);
         }
         return driveNames;
     }
