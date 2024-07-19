@@ -87,14 +87,14 @@ var Projects = function () {
               headers: {
                 "Content-type": "application/json; charset=UTF-8"
               }
-            });
-
-            // get all directory names and create buttons for each
-            fetch(this.SERVER_URL + "/dirs/"+driveName)
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json);
-                this.createButtons(json);
+            }).then(response => {
+                // get all directory names and create buttons for each
+                fetch(this.SERVER_URL + "/dirs/"+driveName)
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json);
+                    this.createButtons(json);
+                });
             });
         }
     });

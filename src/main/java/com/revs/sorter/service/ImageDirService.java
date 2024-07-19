@@ -18,8 +18,10 @@ import java.util.stream.Stream;
 @Service
 public class ImageDirService {
 
+    public static final String IMAGE_SOURCE_DIR = "IMAGES";
+
     public static final Set<String> DEFAULT_DIRS =
-            new HashSet<>(Arrays.asList("Images", "Temp"));
+            new HashSet<>(Arrays.asList(IMAGE_SOURCE_DIR, "TEMP", "SORTED"));
 
     public static final String IMAGE_SORTER_BASE_DIR = "ImageSorter";
 
@@ -54,8 +56,8 @@ public class ImageDirService {
 
     public Set<String> getAllDirectories(String driveName) {
         String dirPath = driveName + ":\\" + IMAGE_SORTER_BASE_DIR;
-        return Stream.of(new File(dirPath).listFiles())
-                .filter(file -> file.isDirectory() && !file.getName().equals("Images"))
+        return Stream.of(Objects.requireNonNull(new File(dirPath).listFiles()))
+                .filter(file -> file.isDirectory() && !file.getName().equals(IMAGE_SOURCE_DIR) && !file.getName().equals("SORTED"))
                 .map(File::getName)
                 .collect(Collectors.toSet());
     }
@@ -63,7 +65,7 @@ public class ImageDirService {
     public String moveImageToDirectory(ImageMovementInfo imageMovementInfo) {
         String driveName = imageMovementInfo.getDriveName();
         try {
-            Files.move(Paths.get(driveName + ":\\" + IMAGE_SORTER_BASE_DIR + "\\Images\\" + imageMovementInfo.getImageName()),
+            Files.move(Paths.get(driveName + ":\\" + IMAGE_SORTER_BASE_DIR + "\\"+IMAGE_SOURCE_DIR+"\\" + imageMovementInfo.getImageName()),
                     Paths.get(driveName + ":\\" + IMAGE_SORTER_BASE_DIR + "\\" + imageMovementInfo.getDirName() + "\\" + imageMovementInfo.getImageName()), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
